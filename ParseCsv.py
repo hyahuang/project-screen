@@ -15,11 +15,15 @@ class ParseCsv():
     def parse(self,command,csvf):
         if(re.search(self.regexN,command)!=None):
             self.parseName(csvf,command)
-        if(re.search(self.regexE,command)!=None):
+        elif(re.search(self.regexE,command)!=None):
             self.parseEmail(csvf,command)
-        
+        elif(re.search(self.regexG,command)!=None):
+            self.parseGPA(csvf,command)
+        else: 
+            print('Please input correct command')
+            return
     def parseName(self,csvf,command):
-        match = re.search(self.regexN,command)
+        match = re.search(self.regexN,command) ##delete inforamtion other than pattern
         reg = command.replace(match.group(0),"")
         reg = reg.replace(">","")
         for row in csvf:
@@ -30,6 +34,20 @@ class ParseCsv():
         reg = command.replace(match.group(0),"")
         reg = reg.replace(">","")
         for row in csvf:
-            if(re.search(reg,row['email'],flags=re.IGNORECASE)!=None):
+            if(re.search(reg,row['email'])!=None):
                 print(row['firstname'],row['lastname'],row['email'],row['gpa'])
+    def parseGPA(self,csvf,command):
+        match = re.search(self.regexG,command)
+        threshold = command.replace(match.group(0),"")
+        threshold = threshold.replace(">","")
+        if(threshold.find('-')==-1):
+            threshold = threshold.replace("+","")
+            for row in csvf:
+                if(float(row['gpa'])>=float(threshold)):
+                    print(row['firstname'],row['lastname'],row['email'],row['gpa'])
+        else:
+            threshold = threshold.replace("-","")
+            for row in csvf:
+                if(float(row['gpa'])<=float(threshold)):
+                    print(row['firstname'],row['lastname'],row['email'],row['gpa'])
             

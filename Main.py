@@ -15,10 +15,10 @@ if __name__ == '__main__':
             if(filename=="exit" ):
                 break; 
             while(True):
-               csvfile = open ("classroster.csv",newline='')
+               csvfile = open (filename,newline='')
                try:
                    csvf = csv.DictReader(csvfile)
-                   command=input("Input command(-name <pattern>,-email <pattern>,-gpa <gpa>[+-]) or \"exit\":")
+                   command=input("Input command(etc. -name <pattern>, -email <pattern>, -gpa <gpa>[+-]) or \"exit\":")
                    if(command=="exit" ):
                        break;
                    parser.parse(command,csvf)
